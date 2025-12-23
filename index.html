@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Teka-Teki MATEMATIKA</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #3a3a6a, #0f0f1a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+
+  .container {
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 520px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+    animation: fadeIn 0.8s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+  }
+
+  h1 {
+    margin-top: 0;
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .question {
+    font-size: 18px;
+    margin: 25px 0 15px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-answer {
+    background: linear-gradient(135deg, #ff9800, #ffc107);
+    color: #000;
+  }
+
+  .btn-answer:hover {
+    transform: scale(1.05);
+  }
+
+  .btn-exit {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    color: #fff;
+  }
+
+  .btn-exit:hover {
+    transform: scale(1.05);
+  }
+
+  .score {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 17px;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background: #1e1e2f;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+  }
+
+  .modal p {
+    margin-bottom: 20px;
+  }
+
+  .modal button {
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>MATEMATIKA </h1>
+
+  <div class="question" id="question"></div>
+
+  <input type="text" id="answer" placeholder="Ketik jawaban kamu...">
+
+  <div class="buttons">
+    <button class="btn-answer" onclick="checkAnswer()">Jawab</button>
+    <button class="btn-exit" onclick="showExit()">Keluar</button>
+  </div>
+
+  <div class="score">
+    Skor: <span id="score">0</span>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <p>Yakin ingin keluar dari game?</p>
+    <button class="btn-answer" onclick="closeGame()">Ya, Keluar</button>
+    <button class="btn-exit" onclick="hideExit()">Batal</button>
+  </div>
+</div>
+
+<script>
+  const puzzles = [
+    { question: "Sederhanakan : 3x+5-2x+7", answer: "x+12" },
+    { question: "Jika 2x-5 = 11, tentukan nilai x?", answer: "8" },
+    { question: "Tentukan hasil dari (x + 4)(x − 2)", answer: "x² + 2x − 8" },
+    { question: "Sebuah tangga panjangnya 13 meter bersandar pada tembok. Jarak kaki tangga ke tembok adalah 5 meter. Tentukan tinggi tembok", answer: "12 Meter" },
+    { question: "Volume sebuah balok adalah 480 cm³. Panjangnya 10 cm dan lebarnya 6 cm. Tentukan tingginya!", answer: "8cm" }
+  ];
+
+  let index = 0;
+  let score = 0;
+
+  const questionEl = document.getElementById("question");
+  const answerEl = document.getElementById("answer");
+
+  questionEl.innerText = puzzles[index].question;
+
+  function checkAnswer() {
+    const userAnswer = answerEl.value.toLowerCase().trim();
+    if (userAnswer === puzzles[index].answer) {
+      score += 10;
+      document.getElementById("score").innerText = score;
+      index++;
+      if (index < puzzles.length) {
+        questionEl.innerText = puzzles[index].question;
+        answerEl.value = "";
+      } else {
+        questionEl.innerText = "🎉 Selamat! Semua teka‑teki selesai!";
+        answerEl.style.display = "none";
+      }
+    } else {
+      alert("❌ Jawaban salah, coba lagi!");
+    }
+  }
+
+  function showExit() {
+    document.getElementById("overlay").style.display = "flex";
+  }
+
+  function hideExit() {
+    document.getElementById("overlay").style.display = "none";
+  }
+
+  function closeGame() {
+    document.body.innerHTML = "<h1 style='color:white;text-align:center'>thanks for playing 🎮</h1>";
+  }
+</script>
+
+</body>
+</html>
